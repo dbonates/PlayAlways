@@ -9,9 +9,8 @@ struct PlayAlways {
 		return dateFormat.string(from: date)
 	}
 
-	var documentsDir: String {
-        let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-        return paths[0]
+	var currentDir: String {
+        return FileManager.default.currentDirectoryPath
 	}
 
 	var iOSImportHeader = "import UIKit"
@@ -49,18 +48,43 @@ struct PlayAlways {
 	    return false
 	}
 
-	func createPlayground() -> Bool {
+	func createPlayground(fileName: String? = nil, atDestination: String? = nil) {
 
 		// essencial Playground structure:
 		// |- folder with name.playground
 	    // |-- contents.xcplayground
 	    // |-- section-1.swift
 
-		let currentDir = URL(fileURLWithPath: documentsDir).appendingPathComponent(dateString + ".playground")
+	    let choosedFileName = fileName ?? dateString
+	    let destinationDir = atDestination ?? currentDir
+
+		let playgroundDir = URL(fileURLWithPath: destinationDir).appendingPathComponent(choosedFileName + ".playground")
 		
-		if createPlaygroundFolder(currentDir.path) &&
-		writeFile("contents.xcplayground", at: currentDir.path, content: contentHeader) &&
-		writeFile("section-1.swift", at: currentDir.path, content: iOSImportHeader) { return true }
-		return false
+		if createPlaygroundFolder(playgroundDir.path) &&
+		writeFile("contents.xcplayground", at: playgroundDir.path, content: contentHeader) &&
+		writeFile("section-1.swift", at: playgroundDir.path, content: iOSImportHeader) { 
+			print("\n\t\u{001B}[0;32mplayground criado com sucesso.\n")
+			return
+		}
+
+		print("\t\u{001B}[0;31mnão foi possível criar o playground com os parametros passados.")
 	}
 }
+
+let pg = PlayAlways()
+switch CommandLine.arguments.count {
+	case 3:
+		// create playground com nome e dir
+		let playgroundName = CommandLine.arguments[1]
+		let playgroundDestination = CommandLine.arguments[2]
+		pg.createPlayground(fileName: playgroundName, atDestination: playgroundDestination)
+	case 2:
+		// only name
+		let playgroundName = CommandLine.arguments[1]
+		pg.createPlayground(fileName: playgroundName)
+	default:
+		// default name on current folder
+		pg.createPlayground()
+		print("\t\u{001B}[0;33mInfo:\n\t\u{001B}[0;37mPara definir um nome usar: pground nome_do_playground\n\tGerando um nome default para o playground.\n")
+}
+
