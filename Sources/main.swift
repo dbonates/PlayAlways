@@ -2,6 +2,8 @@ import Foundation
 
 struct PlayAlways {
 
+	let forMac: Bool
+
 	var dateString: String {
 		let date = Date()
 		let dateFormat = DateFormatter()
@@ -13,9 +15,13 @@ struct PlayAlways {
         return FileManager.default.currentDirectoryPath
 	}
 
-	var iOSImportHeader = "import UIKit"
+	var importHeader: String {
+		return "//: Playground - noun: a place where people can play\n\nimport \(forMac ? "Cocoa" : "UIKit")\n\nvar str = \"Hello, playground\""
+	}
 
-	var contentHeader: String = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<playground version='1.0' sdk='iphonesimulator'>\n\t<sections>\n\t\t<code source-file-name='section-1.swift'/>\n\t</sections>\n\t<timeline fileName='timeline.xctimeline'/>\n</playground>"
+	var contentHeader: String {
+		return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<playground version='5.0' target-platform='\(forMac ? "macos" : "ios")'>\n\t<timeline fileName='timeline.xctimeline'/>\n</playground>\n"
+	}
 
 	func createPlaygroundFolder(_ path: String)  -> Bool {
 
@@ -62,7 +68,7 @@ struct PlayAlways {
 		
 		if createPlaygroundFolder(playgroundDir.path) &&
 		writeFile("contents.xcplayground", at: playgroundDir.path, content: contentHeader) &&
-		writeFile("section-1.swift", at: playgroundDir.path, content: iOSImportHeader) { 
+		writeFile("Contents.swift", at: playgroundDir.path, content: importHeader) { 
 			print("\n\t\u{001B}[0;32mplayground criado com sucesso.\n")
 			return
 		}
@@ -71,20 +77,26 @@ struct PlayAlways {
 	}
 }
 
-let pg = PlayAlways()
-switch CommandLine.arguments.count {
-	case 3:
-		// create playground com nome e dir
-		let playgroundName = CommandLine.arguments[1]
-		let playgroundDestination = CommandLine.arguments[2]
-		pg.createPlayground(fileName: playgroundName, atDestination: playgroundDestination)
+let forMac = CommandLine.arguments.filter { $0.hasPrefix("-")}.contains("-mac")
+
+var fileParameters = forMac ? Array(CommandLine.arguments[2..<CommandLine.arguments.count]) : Array(CommandLine.arguments.dropFirst())
+
+let pg = PlayAlways(forMac: forMac)
+
+switch fileParameters.count {
 	case 2:
+		// create playground com nome e dir
+		let playgroundName = fileParameters[0]
+		let playgroundDestination = fileParameters[1]
+		pg.createPlayground(fileName: playgroundName, atDestination: playgroundDestination)
+	case 1:
 		// only name
-		let playgroundName = CommandLine.arguments[1]
+		let playgroundName = fileParameters[0]
 		pg.createPlayground(fileName: playgroundName)
 	default:
 		// default name on current folder
+		print("\n\tCriando um playground no diretório atual...")
 		pg.createPlayground()
-		print("\t\u{001B}[0;33mInfo:\n\t\u{001B}[0;37mPara definir um nome usar: pground nome_do_playground\n\tGerando um nome default para o playground.\n")
+		print("\t\u{001B}[0;33mComo usar:\n\t\u{001B}[0;37mpground [-mac] [nome_do_playground] [destino]")
 }
 

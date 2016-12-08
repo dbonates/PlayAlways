@@ -3,10 +3,11 @@ import XCTest
 
 class PlayAlwaysTests: XCTestCase {
     
-    let pg = PlayAlways()        
+    let currentDirectoryPath = FileManager.default.currentDirectoryPath
+    let pg = PlayAlways(forMac: false)        
 
     func testGotValidDocumentPath() {
-        XCTAssertEqual(pg.documentsDir, "/Users/daniel.bonates/Documents")
+        XCTAssertEqual(pg.currentDir, currentDirectoryPath)
     }
 
     func testValidDateString() {
@@ -14,20 +15,15 @@ class PlayAlwaysTests: XCTestCase {
     }
 
     func testFullValidPath() {
-        let writePath = URL(fileURLWithPath: pg.documentsDir).appendingPathComponent(pg.dateString + ".playground") 
-           XCTAssertTrue(writePath is URL)        
-    }
-
-    func DISABLED_testShouldCreatePlayground() {
-         XCTAssertTrue(pg.createPlayground()) 
+        let writePath = URL(fileURLWithPath: pg.currentDir).appendingPathComponent(pg.dateString + ".playground") 
+           XCTAssertEqual(writePath.path, currentDirectoryPath + "/" + pg.dateString + ".playground")        
     }
 
     static var allTests : [(String, (PlayAlwaysTests) -> () throws -> Void)] {
         return [
             ("testGotValidDocumentPath", testGotValidDocumentPath),
             ("testValidDateString", testValidDateString),
-            ("testFullValidPath", testFullValidPath),
-            // ("testShouldCreatePlayground", testShouldCreatePlayground)
+            ("testFullValidPath", testFullValidPath)
         ]
     }
 }
