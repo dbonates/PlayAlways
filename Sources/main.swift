@@ -1,3 +1,14 @@
+//
+//  PlayAlways
+//  Generates Playground with options and open it on Xcode
+//
+//  Created by Daniel Bonates on Dez/8/16.
+//  
+//  Usage PlayAlways [-mac] [playground_name] [destination]
+//		
+//	-mac is used to generate MacOS version (iOS is default)
+//
+
 import Foundation
 
 struct PlayAlways {
@@ -59,7 +70,7 @@ struct PlayAlways {
 		// essencial Playground structure:
 		// |- folder with name.playground
 	    // |-- contents.xcplayground
-	    // |-- section-1.swift
+	    // |-- Contents.swift
 
 	    let choosedFileName = fileName ?? dateString
 	    let destinationDir = atDestination ?? currentDir
@@ -104,6 +115,6 @@ switch fileParameters.count {
 		// default name on current folder
 		print("\n\tCriando um playground no diretório atual...")
 		pg.createPlayground()
-		print("\t\u{001B}[0;33mComo usar:\n\t\u{001B}[0;37mpground [-mac] [nome_do_playground] [destino]")
+		print("\t\u{001B}[0;33mComo usar:\n\t\u{001B}[0;37PlayAlways [-mac] [nome_do_playground] [destino]")
 }
 
