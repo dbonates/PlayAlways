@@ -69,7 +69,14 @@ struct PlayAlways {
 		if createPlaygroundFolder(playgroundDir.path) &&
 		writeFile("contents.xcplayground", at: playgroundDir.path, content: contentHeader) &&
 		writeFile("Contents.swift", at: playgroundDir.path, content: importHeader) { 
-			print("\n\t\u{001B}[0;32mplayground criado com sucesso.\n")
+			print("\n\t\u{001B}[0;32mplayground criado com sucesso. Abrindo...\n")
+
+			let task = Process()
+	        task.launchPath = "/bin/sh"
+	        task.arguments = ["-c", "open \(playgroundDir.path)"]
+	        task.launch()
+	        task.waitUntilExit()
+
 			return
 		}
 
