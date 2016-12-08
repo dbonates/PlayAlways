@@ -39,7 +39,7 @@ copying the executable to `/usr/bin` will make it available everywhere, always d
 
 ## The future
 
-**The future has come too fast!** While I was writing this README.md, a friend called [@insidegui](https://github.com/insidegui) just boosted this idea to a real and elegant Mac app, which resides on top bar, with handy shortcuts! Check it out:
+**The future has arrived (too fast)!** While I was writing this README.md, a friend called [@insidegui](https://github.com/insidegui) just boosted this idea to a real and elegant Mac app, which resides on top bar, with handy shortcuts! Check it out:
 
 [PlayAlways App](https://github.com/insidegui/PlayAlways)
 
