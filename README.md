@@ -1,7 +1,7 @@
 #PlayAlways CLI
 ###a Playground creation commandline tool
 
-This apps was inpired on an great tool called [PlayNow](https://github.com/marcboquet/PlayNow) by Marc, which consist of an app that reduces your steps to just one click away to get a Playground up and running. For people like me, heavy user of Playgrounds, it really saves us from this tedious tasks like thinking where we should save them, or even their names!
+This apps was inpired on a smart tool called [PlayNow](https://github.com/marcboquet/PlayNow) by [@Marc](https://github.com/marcboquet), which consist of an app that reduces your steps to just one click away to get a Playground up and running. For people like me, heavy user of Playgrounds, it really saves us from this tedious tasks like thinking where we should save them, or even their names! Thanks [@Marc](https://github.com/marcboquet) for the original idea!
 
 Using it for a while, I was trapped into the darkness because of just one simple and important detail: It saves the playground on a temporary folder, so, "without warning" I loose a lot of code when restarted my Mac. It happened twice, and made me sad. I know, the readme says something about it, but anyway, I needed something more flexible. So, instead of looking into modify the original source, in Ruby, I've decided to write it using Swift. Then, I opened the terminal and typed:
 
