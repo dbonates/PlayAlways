@@ -45,6 +45,6 @@ copying the executable to `/usr/bin` will make it available everywhere, always d
 
 ![PlayAlways](https://github.com/insidegui/PlayAlways/raw/master/screenshot.png)
 
-Thanks [@insidegui](https://github.com/insidegui)
+Thanks [@insidegui](https://github.com/insidegui), glad to see it :wink:
 
 
